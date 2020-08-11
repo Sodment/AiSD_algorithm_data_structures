@@ -342,7 +342,7 @@ while True:
             graphNastepnikow.Hierholzers()
         else:
             print("To nie jest graf Eulera")
-        print("Time of running this:", time.perf_counter() - startTime4, "sec")
+        print("Time of running this:", time.perf_counter() - startTime4, "secdupa")
     elif actionChoice == 5:
         break
 
