@@ -37,10 +37,13 @@ class Backpack:
         # PRINTING OUT ANSWER
 
         print("Przedmioty w plecaku (Algorytm wyczerpujacy):")
-        for i in range(len(answer[0])):
-            print(answer[0][i][2], end=', ')
-        print("\nIch wartosc:", answer[1])
-        print("Ich waga:", answer[2])
+        if answer:
+            for i in range(len(answer[0])):
+                print(answer[0][i][2], end=', ')
+            print("\nIch wartosc:", answer[1])
+            print("Ich waga:", answer[2])
+        else:
+            print("Plecak pusty")
 
 
     def bruteforce_util(self, string):
@@ -71,10 +74,13 @@ class Backpack:
         # PRINTING OUT ANSWER
 
         print("Przedmioty w plecaku (Algorytm zachlanny):")
-        for i in range(len(answer[0])):
-            print(answer[0][i], end=', ')
-        print("\nIch wartosc:", answer[1])
-        print("Ich waga:", answer[2])
+        if answer[0]:
+            for i in range(len(answer[0])):
+                print(answer[0][i], end=', ')
+            print("\nIch wartosc:", answer[1])
+            print("Ich waga:", answer[2])
+        else:
+            print("Plecak pusty")
 
     # DYNAMIC APPROACH
 
@@ -82,7 +88,7 @@ class Backpack:
         cargo = self.cargo_space + 1
         itemy = len(self.items) + 1
         matrix = [[0 for x in range(cargo)] for x in range(itemy)]
-        answer = [ [], 0, 0 ]
+        answer = [[], 0, 0]
         for i in range(itemy):
             for j in range(cargo):
                 if i == 0 or j == 0:
@@ -93,10 +99,12 @@ class Backpack:
                     matrix[i][j] = max(matrix[i-1][j], matrix[i-1][j - self.items[i-1][1]] + self.items[i-1][0])
                 else:
                     print("WTF")
+        #for i in range(len(matrix)):
+         #   print(matrix[i])
         max_ = matrix[itemy-1][cargo-1]
         w = self.cargo_space
-        for i in range(len(self.items), 0 , -1):
-            if max_ <=0:
+        for i in range(len(self.items), 0, -1):
+            if max_ <= 0:
                 break
             if max_ == matrix[i-1][w]:
                 continue
@@ -110,10 +118,13 @@ class Backpack:
         # PRINTING OUT ANSWER
 
         print("Przedmioty w plecaku (Programowanie dynamiczne):")
-        for i in range(len(answer[0])):
-            print(answer[0][i], end=', ')
-        print("\nIch wartosc:", answer[1])
-        print("Ich waga:", answer[2])
+        if answer[0]:
+            for i in range(len(answer[0])):
+                print(answer[0][i], end=', ')
+            print("\nIch wartosc:", answer[1])
+            print("Ich waga:", answer[2])
+        else:
+            print("Plecak pusty")
 
 
 def Read_From_Keyboard():
@@ -168,11 +179,24 @@ while True:
             print("Zly format zapisu danych")
             continue
         amount_of_items = int(file[0])
+        if amount_of_items <= 0:
+            print("Not gonna happen")
+            break
         cargo_space = int(file[1])
+        if cargo_space <= 0:
+            print("Not gonna happen")
+            break
         file = file[2:]
-        for i in range(2, 2 * (amount_of_items + 1), 2):
-            x = (file[i - 2], file[i - 1], "x"+str(i//2))
-            items.append(x)
+        try:
+            for i in range(2, 2 * (amount_of_items + 1), 2):
+                x = (file[i - 2], file[i - 1], "x"+str(i//2))
+                if x[0] <= 0 or x[1] <= 0:
+                    print("Im afraid that item has to be dropped")
+                    print("Item dropped: ", x[0], x[1] , x[2])
+                else:
+                    items.append(x)
+        except IndexError:
+            print("We are short of items!\nWe will work on", len(items), "items from now on")
         break
     else:
         print("Ops something wen wrong, please try again")
@@ -181,7 +205,7 @@ while True:
 knapsack = Backpack(cargo_space)
 for i in range(len(items)):
     knapsack.add_item(items[i])
-
+#print("W plecaku jest:", knapsack.items)
 while True:
     print("Wybierz co chcesz zrobic:\n1.Rozwiazanie metoda brute force\n2.Rozwiazanie metoda zachlanna\n3.Rozwiazanie metoda programowania dynamicznego\n4.Wyjscie z programu")
     try:
@@ -203,5 +227,6 @@ while True:
     elif ch == 4:
         print("Bye bye")
         break;
+        print("duap)")
     else:
         print("Nie ta liczba!")
