@@ -1,2 +1,2 @@
 # AiSD
-Homework for Algorithms and Data Structure
+Couple algorithms made during Algorithms and Data Structures course at Poznan University of Technology
